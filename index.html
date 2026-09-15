@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>reCAPTCHA Simulator — Cyber Security Thesis</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="thesis-banner">
+  ⚠️ SIMULASI EDUKATIF — TUGAS AKHIR CYBER SECURITY · 100% offline, tidak mengirim data ke Google, tidak memakai asset resmi Google
+</div>
+
+<!-- ===== 1. WIDGET: reCAPTCHA v2 checkbox (stage awal) ===== -->
+<div id="widget-wrap" class="stage active">
+  <div class="demo-frame">
+    <div class="demo-note">Tampilan yang muncul di situs ketika login / submit form:</div>
+    <div class="grecaptcha-box" id="recaptcha-box" role="checkbox" aria-checked="false" tabindex="0">
+      <div class="rc-checkbox" id="rc-checkbox">
+        <div class="rc-spinner hidden" id="rc-spinner"></div>
+        <svg class="rc-check hidden" id="rc-check" viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
+      </div>
+      <div class="rc-label">I'm not a robot</div>
+      <div class="rc-logo">
+        <svg viewBox="0 0 48 48" class="rc-logo-svg"><path fill="#1c3aa9" d="M44 24c0-.4 0-.7 0-1.1V6.9L37.5 13.4A19.9 19.9 0 0 0 24 8c-6.6 0-12.4 3.2-16 8.1l7.3 6.6C16.9 19.9 20.2 18 24 18c3.4 0 6.4 1.4 8.6 3.6L26 28.2h18V24z"/><path fill="#4285f4" d="M24 44c6.6 0 12.4-3.2 16-8.1l-7.3-6.6C31.1 32.1 27.8 34 24 34c-3.4 0-6.4-1.4-8.6-3.6L22 23.8H4V24c0 .4 0 .7 0 1.1v16l6.5-6.5C14 40.8 18.7 44 24 44z"/><path fill="#ababab" d="M4 24c0 .4 0 .7 0 1.1v16l6.5-6.5C8.9 31 8 27.6 8 24c0-2.8.6-5.5 1.6-7.9L4 9.5V24z" opacity=".55"/></svg>
+        <div class="rc-brand">reCAPTCHA<span>Privacy - Terms</span></div>
+      </div>
+    </div>
+  </div>
+  <p class="hint">👈 Klik checkbox — perhatikan <b>risk analysis</b> berjalan sebelum verdict muncul</p>
+</div>
+
+<!-- ===== 2. CHALLENGE MODAL ===== -->
+<div id="challenge-overlay" class="overlay hidden">
+  <div class="challenge-dialog" role="dialog" aria-modal="true">
+    <div class="challenge-header">
+      <div class="ch-title" id="ch-title">Select all squares with <b>traffic lights</b></div>
+      <div class="ch-actions">
+        <button class="ch-icon-btn" id="ch-refresh" title="Challenge baru">⟳</button>
+        <button class="ch-icon-btn" id="ch-audio" title="Audio challenge">🔊</button>
+        <button class="ch-icon-btn" id="ch-help" title="Bantuan">?</button>
+      </div>
+    </div>
+    <div class="challenge-grid" id="challenge-grid"></div>
+    <div class="challenge-footer">
+      <div class="ch-brand-mini">
+        <svg viewBox="0 0 48 48" class="ch-logo-mini"><path fill="#1c3aa9" d="M44 24c0-.4 0-.7 0-1.1V6.9L37.5 13.4A19.9 19.9 0 0 0 24 8c-6.6 0-12.4 3.2-16 8.1l7.3 6.6C16.9 19.9 20.2 18 24 18c3.4 0 6.4 1.4 8.6 3.6L26 28.2h18V24z"/><path fill="#4285f4" d="M24 44c6.6 0 12.4-3.2 16-8.1l-7.3-6.6C31.1 32.1 27.8 34 24 34c-3.4 0-6.4-1.4-8.6-3.6L22 23.8H4V24c0 .4 0 .7 0 1.1v16l6.5-6.5C14 40.8 18.7 44 24 44z"/></svg>
+        <span>reCAPTCHA</span><span class="ch-privacy">Privacy - Terms</span>
+      </div>
+      <div class="ch-buttons">
+        <button class="ch-btn" id="ch-skip">SKIP</button>
+        <button class="ch-btn ch-verify" id="ch-verify">VERIFY</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 3. PANEL EDUKASI / TELEMETRY ===== -->
+<aside class="telemetry" id="telemetry">
+  <div class="tl-header">
+    <span class="tl-dot"></span> RISK ENGINE — LIVE TELEMETRY
+    <button id="tl-toggle" title="Minimize">–</button>
+  </div>
+  <div class="tl-body" id="tl-body">
+    <div class="tl-row"><span>Stage</span><b id="tl-stage">0/6</b></div>
+    <div class="tl-row"><span>Risk Score</span><b id="tl-risk">0.00</b></div>
+    <div class="meter"><div id="tl-risk-bar"></div></div>
+    <div class="tl-row"><span>Mouse entropy</span><b id="tl-entropy">0</b></div>
+    <div class="tl-row"><span>Interaksi manusiawi</span><b id="tl-human">—</b></div>
+    <div class="tl-row"><span>Signal terkirim</span><b id="tl-signals">0</b></div>
+    <div class="tl-log" id="tl-log"></div>
+    <div class="tl-lesson" id="tl-lesson">
+      <b>📌 Poin belajar:</b> <span id="tl-lesson-text">reCAPTCHA v2 tidak memeriksa klik checkbox-nya, melainkan sinyal sebelum & saat klik: gerakan mouse, timing, fingerprint, IP reputation.</span>
+    </div>
+    <button class="tl-btn" id="btn-bot-mode">🤖 Mode Bot Simulator</button>
+    <button class="tl-btn tl-btn-reset" id="btn-reset">↺ Reset</button>
+  </div>
+</aside>
+
+<!-- ===== 4. HASIL / SERTIFIKAT ===== -->
+<div id="result-overlay" class="overlay hidden">
+  <div class="result-card">
+    <div class="res-emoji" id="res-emoji">🏆</div>
+    <h2 id="res-title">VERIFIED HUMAN</h2>
+    <p id="res-desc">Semua 6 tahap simulasi selesai.</p>
+    <div class="res-stats" id="res-stats"></div>
+    <button class="tl-btn" id="btn-again">↺ Main lagi</button>
+  </div>
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>

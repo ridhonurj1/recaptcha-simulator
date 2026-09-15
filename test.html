@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>reCAPTCHA Simulator — Gate Test</title>
+</head>
+<body style="font-family:system-ui;background:#0b0f17;color:#e5e9f2;padding:40px">
+<h1>Gate Test — Verifikasi Challenge</h1>
+<p style="color:#8b94a7">Halaman ini hanya untuk pengujian otomatis: gate script memicu challenge bila entropy &lt; 0.2.</p>
+<div id="out" style="margin-top:20px;font-family:monospace"></div>
+<script src="game.js"></script>
+<script>
+setTimeout(() => {
+  document.getElementById('out').textContent = JSON.stringify({
+    risk: Risk.score.toFixed(2),
+    entropy: Risk.entropy().toFixed(2),
+    signals: Risk.signals,
+  });
+}, 500);
+</script>
+</body>
+</html>
